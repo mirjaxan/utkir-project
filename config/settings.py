@@ -14,7 +14,8 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'test-key-12345-for-now')
 DEBUG = False
 
 # 3. ALLOWED_HOSTS
-ALLOWED_HOSTS = ['.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ["utkir-project.onrender.com"]
+
 
 
 # 4. Apps
