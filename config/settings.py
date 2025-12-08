@@ -1,24 +1,38 @@
-"""
-Django settings for config project.
-"""
-
 from pathlib import Path
 import os
+import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# 1. SECRET_KEY
-SECRET_KEY = os.environ.get('SECRET_KEY', 'test-key-12345-for-now')
+# ============================
+# SECRET KEY
+# ============================
 
-# 2. DEBUG - Render.com da avtomatik False bo'ladi
-DEBUG = False
+# Agar Render.com da bo'lsa — Environment Variables dan oladi.
+# Agar lokal bo'lsa — oddiy test-key ishlaydi.
+SECRET_KEY = os.environ.get("SECRET_KEY", "local-test-secret-key")
 
-# 3. ALLOWED_HOSTS
-ALLOWED_HOSTS = ["utkir-project.onrender.com"]
+# ============================
+# DEBUG
+# ============================
 
+# Render.com konteynerida RENDER degan env bo'ladi.
+DEBUG = "RENDER" not in os.environ
 
+# ============================
+# HOSTS
+# ============================
 
-# 4. Apps
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    os.environ.get("RENDER_EXTERNAL_HOSTNAME", ""),
+]
+
+# ============================
+# APPS
+# ============================
+
 INSTALLED_APPS = [
     'jazzmin',
     'django.contrib.admin',
@@ -30,10 +44,13 @@ INSTALLED_APPS = [
     'app',
 ]
 
-# 5. Middleware (whitenoise faqat bitta)
+# ============================
+# MIDDLEWARE
+# ============================
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # birinchi o'rinda
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -47,7 +64,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -61,35 +78,50 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-# 6. Database - faqat SQLite
+# ============================
+# DATABASE (Render uchun to‘liq tayyor)
+# ============================
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    "default": dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR/'db.sqlite3'}",
+        conn_max_age=600,
+        ssl_require=True
+    )
 }
 
-# 7. Password validators (oddiy)
+# ============================
+# AUTH
+# ============================
+
 AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'}
 ]
 
-# 8. Internationalization
+# ============================
+# LANG & TIME
+# ============================
+
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# 9. STATIC FILES (ENG MUHIM!)
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = [BASE_DIR / 'static']
+# ============================
+# STATIC FILES
+# ============================
 
-# Whitenoise
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
-# 10. Media
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# ============================
+# MEDIA
+# ============================
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
+
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
