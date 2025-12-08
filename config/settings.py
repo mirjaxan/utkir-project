@@ -81,7 +81,7 @@ USE_TZ = True
 
 # 9. STATIC FILES (ENG MUHIM!)
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'  # shu bo'lishi SHART!
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
 # Whitenoise
