@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{{ post.title }}</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#0d0d0e;
+  --panel:#131314;
+  --card:#18181a;
+  --border:#1f1f22;
+  --muted:#9a9a9a;
+  --accent:#ff7a2d;
+  --accent2:#ff9c55;
+  --radius:22px;
+}
+
+*{margin:0; padding:0; box-sizing:border-box;}
+body{
+  background:var(--bg);
+  font-family:Inter, sans-serif;
+  color:#fff;
+  padding-bottom:120px;
+}
+
+/* === TOPBAR === */
+.topbar{
+  width:100%;
+  padding:22px 48px;
+  background:#0d0d0e;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid #111;
+}
+.top_left{
+  display:flex;
+  align-items:center;
+  gap:30px;
+}
+.logo{
+  display:flex;
+  align-items:center;
+  font-size:20px;
+  font-weight:700;
+}
+.logo span{
+  background:var(--accent);
+  padding:4px 12px;
+  border-radius:10px;
+  color:#000;
+  margin-right:6px;
+}
+.topnav{
+  display:flex;
+  gap:26px;
+  font-size:15px;
+  color:#ddd;
+}
+.searchbox{
+  background:#1a1a1a;
+  padding:10px 18px;
+  border-radius:14px;
+  border:1px solid #222;
+  color:#aaa;
+}
+
+/* === PAGE WIDTH === */
+.wrap{
+  width:1100px;
+  margin:40px auto;
+}
+
+/* === BREADCRUMB === */
+.breadcrumb{
+  color:var(--muted);
+  margin-bottom:22px;
+  font-size:15px;
+}
+
+/* === HEAD BLOCK === */
+.head_block{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+}
+.head_left .company{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:16px;
+  color:#ccc;
+}
+.head_left h1{
+  font-size:45px;
+  font-weight:800;
+  margin:10px 0 14px 0;
+}
+.head_right{
+  background:var(--panel);
+  padding:26px;
+  width:310px;
+  border-radius:var(--radius);
+}
+.head_right div{
+  margin-bottom:12px;
+}
+.head_right .tag{
+  color:var(--muted);
+  font-size:14px;
+}
+.head_right .value{
+  font-size:18px;
+  font-weight:600;
+}
+.apply_btn{
+  width:100%;
+  margin-top:18px;
+  padding:16px 0;
+  background:linear-gradient(90deg, var(--accent), var(--accent2));
+  border:none;
+  border-radius:16px;
+  font-weight:700;
+  color:#111;
+  cursor:pointer;
+  font-size:17px;
+}
+
+/* === CONTENT BLOCKS === */
+.block{
+  background:var(--panel);
+  padding:32px;
+  margin-top:30px;
+  border-radius:var(--radius);
+  border:1px solid var(--border);
+}
+.block h2{
+  font-size:22px;
+  margin-bottom:20px;
+}
+.block p, .block li{
+  color:#d6d6d6;
+  font-size:16px;
+  line-height:1.55;
+}
+.block ul{
+  margin-top:12px;
+  padding-left:20px;
+}
+.block li{
+  margin-bottom:8px;
+}
+
+/* === RELATED JOBS === */
+.related{
+  margin-top:50px;
+}
+.related_cards{
+  margin-top:18px;
+  display:flex;
+  gap:18px;
+}
+.jobcard{
+  background:var(--card);
+  padding:22px;
+  border-radius:var(--radius);
+  width:250px;
+  border:1px solid #222;
+}
+.jobcard h3{
+  font-size:18px;
+  margin:10px 0 8px;
+}
+.jobcard .meta{
+  display:flex;
+  justify-content:space-between;
+  font-size:14px;
+  color:var(--muted);
+}
+.jobcard .badge{
+  margin-top:12px;
+  background:#0f0f10;
+  padding:6px 10px;
+  border-radius:8px;
+  display:inline-block;
+  font-size:13px;
+}
+
+/* === FOOTER === */
+footer{
+  width:100%;
+  padding:30px 48px;
+  color:var(--muted);
+  opacity:0.7;
+  font-size:14px;
+  display:flex;
+  justify-content:space-between;
+  border-top:1px solid #111;
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="top_left">
+    <div class="logo"><span>work</span>station</div>
+    <div class="topnav">
+      <div>Мой TG-канал</div>
+      <div>Курс по поиску работы</div>
+      <div>Написать мне</div>
+    </div>
+  </div>
+  <div class="searchbox">Поиск работы...</div>
+</header>
+
+<div class="wrap">
+
+  <div class="breadcrumb">Главная / {{ psot.title }}</div>
+
+  <div class="head_block">
+
+    <div class="head_left">
+      <div class="company">🔵 {{ post.company }} <span style="color:#777;margin-left:6px;"></span></div>
+      <h1>{{ post.title }}r</h1>
+    </div>
+
+    <div class="head_right">
+      <div>
+        <div class="tag">грейд</div>
+        <div class="value">{{ post.daraja }}</div>
+      </div>
+      <div>
+        <div class="tag">формат</div>
+        <div class="value">гибрид</div>
+      </div>
+      <div>
+        <div class="tag">зарплата</div>
+        <div class="value">{{ post.price }}$</div>
+      </div>
+
+      <button class="apply_btn">Откликнуться</button>
+    </div>
+
+  </div>
+
+  <div class="block">
+    <h2>Описание</h2>
+    <p>
+      {{ post.desc }}
+    </p>
+  </div>
+
+  <div class="block">
+    <h2>Требования</h2>
+    <ul>
+      {{ post.talablar }}
+    </ul>
+  </div>
+
+  <div class="block">
+    <h2>Условия</h2>
+    <ul>
+      <li>{{ post.shartlar }}</li>
+    </ul>
+  </div>
+
+  <div class="related">
+    <h2>Похожие вакансии</h2>
+    <div class="related_cards">
+
+      <div class="jobcard">
+        <div class="meta">
+          <span>Payme</span>
+          <span>вчера</span>
+        </div>
+        <h3>UX/UI dizayner</h3>
+        <div class="badge">middle — офис Tashkent</div>
+      </div>
+
+      <div class="jobcard">
+        <div class="meta">
+          <span>Payme</span>
+          <span>вчера</span>
+        </div>
+        <h3>UX/UI dizayner</h3>
+        <div class="badge">middle — офис Tashkent</div>
+      </div>
+
+      <div class="jobcard">
+        <div class="meta">
+          <span>Payme</span>
+          <span>вчера</span>
+        </div>
+        <h3>UX/UI dizayner</h3>
+        <div class="badge">middle — офис Tashkent</div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div>© 2025 Группа Workstation⚡</div>
+  <div>v.1.0.0</div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Create Vacancy — Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0c0c0d;
+    --panel:#121214;
+    --card:#18181a;
+    --muted:#8f8f8f;
+    --accent:#ff7a2d;
+    --accent2:#ff9c55;
+    --border:#1f1f22;
+    --radius:20px;
+    --shadow:0 12px 40px rgba(0,0,0,0.55);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--bg); color:#eee; font-family:Inter, sans-serif; padding-bottom:60px;
+  }
+
+  /* HEADER */
+  .topbar{
+    padding:24px 38px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0));
+    display:flex; justify-content:space-between; align-items:center;
+    border-bottom:1px solid var(--border);
+  }
+  .logo{display:flex; align-items:center; gap:10px; font-size:18px; font-weight:700;}
+  .logo .w{background:var(--accent); padding:4px 10px; border-radius:10px; color:#000;}
+
+  /* MAIN WRAPPER */
+  .wrap{
+    max-width:760px;
+    margin:50px auto;
+    padding:0 26px;
+  }
+  h1{
+    font-size:34px; font-weight:800; margin-bottom:22px;
+    letter-spacing:-0.5px;
+  }
+
+  /* FORM CARD */
+  form{
+    background:var(--panel);
+    padding:36px;
+    border-radius:var(--radius);
+    border:1px solid var(--border);
+    box-shadow:var(--shadow);
+    animation:fadeUp .55s ease;
+  }
+
+  @keyframes fadeUp{
+    from{opacity:0; transform:translateY(20px);} to{opacity:1; transform:translateY(0);}
+  }
+
+  label{
+    display:block; font-weight:600; margin-bottom:8px; color:#d3d3d3;
+  }
+
+  input, select, textarea{
+    width:100%; background:var(--card);
+    border:1px solid #232326;
+    padding:15px 16px;
+    color:white;
+    border-radius:14px;
+    margin-bottom:22px;
+    font-size:15px;
+    transition:0.2s;
+  }
+  input:focus, select:focus, textarea:focus{
+    border-color:var(--accent);
+    box-shadow:0 0 0 3px rgba(255,122,45,0.2);
+    outline:none;
+  }
+
+  /* BUTTON */
+  button{
+    background:linear-gradient(90deg, var(--accent), var(--accent2));
+    border:0;
+    padding:16px 32px;
+    color:#111;
+    border-radius:16px;
+    font-weight:700;
+    font-size:17px;
+    cursor:pointer;
+    width:100%;
+    transition:0.25s;
+  }
+  button:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 25px rgba(255,122,45,0.35);
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="logo"><span class="w">work</span>station</div>
+</header>
+
+<div class="wrap">
+  <h1>Добавить новую вакансию</h1>
+
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <label>Компания</label>
+    <input type="text" name="company" placeholder="Payme" required>
+
+    <label>Название должности</label>
+    <input type="text" name="title" placeholder="UX/UI dizayner" required>
+
+    <label>Зарплата</label>
+    <input type="text" name="price" placeholder="6–10 mln" required>
+
+    <label>Грейд</label>
+    <select name="daraja" required>
+      <option value="intern">Intern</option>
+      <option value="junior">Junior</option>
+      <option value="middle" selected>Middle</option>
+      <option value="senior">Senior</option>
+      <option value="head">Head</option>
+    </select>
+
+    <label>Тип (офис, гибрид и т.д.)</label>
+    <input type="text" name="typework" placeholder="офис Tashkent" required>
+
+    <label>Описание вакансии</label>
+    <textarea name="desc" placeholder="Введите текст..."></textarea>
+
+    <label>Логотип компании</label>
+    <input type="file" name="image">
+
+    <button type="submit">Создать вакансию</button>
+  </form>
+</div>
+
+</body>
+</html>
