@@ -3,25 +3,20 @@ Django settings for config project.
 """
 
 from pathlib import Path
-import dj_database_url
 import os
-from dotenv import load_dotenv  # qo'shing
 
-load_dotenv()  # .env faylini yuklash
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# 1. SECRET_KEY
+SECRET_KEY = os.environ.get('SECRET_KEY', 'test-key-12345-for-now')
 
-# Quick-start development settings - unsuitable for production
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-h6k#)#85%0qf6*em4xlbe978*+(eum1=4cy_3wwh#_29wh2!8(')
+# 2. DEBUG - Render.com da avtomatik False bo'ladi
+DEBUG = False
 
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
-
+# 3. ALLOWED_HOSTS
 ALLOWED_HOSTS = ['*']
 
-
-# Application definition
+# 4. Apps
 INSTALLED_APPS = [
     'jazzmin',
     'django.contrib.admin',
@@ -33,9 +28,10 @@ INSTALLED_APPS = [
     'app',
 ]
 
+# 5. Middleware (whitenoise faqat bitta)
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # faqat bir marta
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # birinchi o'rinda
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -49,7 +45,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -63,65 +59,35 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-
-# Database
+# 6. Database - faqat SQLite
 DATABASES = {
-    'default': dj_database_url.config(
-        default='sqlite:///' + str(BASE_DIR / 'db.sqlite3'),
-        conn_max_age=600,
-        conn_health_checks=True,
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
-
-# Password validation
+# 7. Password validators (oddiy)
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
 ]
 
-
-# Internationalization
+# 8. Internationalization
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
+# 9. STATIC FILES (ENG MUHIM!)
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',
-]
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # shu bo'lishi SHART!
+STATICFILES_DIRS = [BASE_DIR / 'static']
 
-# Whitenoise configuration
+# Whitenoise
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Media files
+# 10. Media
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# Render.com PORT
-PORT = int(os.environ.get('PORT', 8000))
-
-# Jazzmin settings (ixtiyoriy)
-JAZZMIN_SETTINGS = {
-    "site_title": "Admin Panel",
-    "site_header": "Admin",
-    "site_brand": "Admin Panel",
-    "welcome_sign": "Admin paneliga xush kelibsiz",
-}
