@@ -1,37 +1,23 @@
 from pathlib import Path
 import os
-import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# ============================
-# SECRET KEY
-# ============================
+# =======================
+# SECURITY
+# =======================
 
-# Agar Render.com da bo'lsa — Environment Variables dan oladi.
-# Agar lokal bo'lsa — oddiy test-key ishlaydi.
-SECRET_KEY = os.environ.get("SECRET_KEY", "local-test-secret-key")
+SECRET_KEY = os.environ.get("SECRET_KEY", "dev-secret-key")
 
-# ============================
-# DEBUG
-# ============================
-
-# Render.com konteynerida RENDER degan env bo'ladi.
 DEBUG = "RENDER" not in os.environ
 
-# ============================
-# HOSTS
-# ============================
-
 ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1",
-    os.environ.get("RENDER_EXTERNAL_HOSTNAME", ""),
+    "*",
 ]
 
-# ============================
+# =======================
 # APPS
-# ============================
+# =======================
 
 INSTALLED_APPS = [
     'jazzmin',
@@ -44,13 +30,13 @@ INSTALLED_APPS = [
     'app',
 ]
 
-# ============================
+# =======================
 # MIDDLEWARE
-# ============================
+# =======================
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',   # MUHIM !!!
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -78,48 +64,34 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-# ============================
-# DATABASE (Render uchun to‘liq tayyor)
-# ============================
+# =======================
+# DATABASE (SQLite)
+# =======================
 
 DATABASES = {
-    "default": dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR/'db.sqlite3'}",
-        conn_max_age=600,
-        ssl_require=True
-    )
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+    }
 }
 
-# ============================
-# AUTH
-# ============================
+# =======================
+# PASSWORDS
+# =======================
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'}
 ]
 
-# ============================
-# LANG & TIME
-# ============================
-
-LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
-USE_I18N = True
-USE_TZ = True
-
-# ============================
-# STATIC FILES
-# ============================
+# =======================
+# STATIC / MEDIA
+# =======================
 
 STATIC_URL = "/static/"
-STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
-# ============================
-# MEDIA
-# ============================
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
